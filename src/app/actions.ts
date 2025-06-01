@@ -3,7 +3,9 @@
 import webPush, { PushSubscription } from "web-push";
 
 webPush.setVapidDetails(
-  process.env.VAPID_SUBJECT!,
+  `https://${
+    process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL || "localhost:3000"
+  }/`,
   process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
   process.env.VAPID_PRIVATE_KEY!,
 );
@@ -30,15 +32,15 @@ export async function sendNotification(message: string) {
   // }
 
   // try {
-    await webPush.sendNotification(
-      subscription!,
-      JSON.stringify({
-        title: "Test Notification",
-        body: message,
-        icon: "/rss.svg",
-      }),
-    );
-    return { success: true };
+  await webPush.sendNotification(
+    subscription!,
+    JSON.stringify({
+      title: "Test Notification",
+      body: message,
+      icon: "/rss.svg",
+    }),
+  );
+  return { success: true };
   // } catch (error) {
   //   console.error("Error sending push notification:", error);
   //   return { success: false, error: "Failed to send notification" };
