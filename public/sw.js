@@ -20,5 +20,10 @@ self.addEventListener("push", function (event) {
 self.addEventListener("notificationclick", function (event) {
   console.debug("Notification click", event);
   event.notification.close();
-  event.waitUntil(clients.openWindow(self.registration.scope));
+  event.waitUntil(
+    clients.matchAll({ includeUncontrolled: true }).then(([client]) => {
+      if (client) clients.openWindow(client);
+      else clients.openWindow(self.registration.scope);
+    }),
+  );
 });
