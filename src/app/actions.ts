@@ -26,7 +26,7 @@ export async function unsubscribeUser() {
   return { success: true };
 }
 
-export async function sendNotification(message: string) {
+export async function sendNotification(title: string, body: string) {
   // if (!subscription) {
   //   throw new Error("No subscription available");
   // }
@@ -35,8 +35,8 @@ export async function sendNotification(message: string) {
   await webPush.sendNotification(
     subscription!,
     JSON.stringify({
-      title: "Test Notification",
-      body: message,
+      title,
+      body,
       icon: "/rss.svg",
     }),
   );

@@ -58,7 +58,7 @@ export function PushNotificationManager() {
   }
 
   async function sendTestNotification() {
-    return await sendNotification("Test notification");
+    return await sendNotification("Test", "Test notification");
   }
 
   if (!isSupported) return false;
