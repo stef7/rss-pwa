@@ -21,9 +21,12 @@ self.addEventListener("notificationclick", function (event) {
   console.debug("Notification click", event);
   event.notification.close();
   event.waitUntil(
-    clients.matchAll({ includeUncontrolled: true }).then(([client]) => {
-      if (client) clients.openWindow(client);
-      else clients.openWindow(self.registration.scope);
+    clients.matchAll({ includeUncontrolled: true }).then((clients) => {
+      for (const client of clients) {
+        if (client.url.startsWith(self.registration.scope) && "focus" in client)
+          clients.focus();
+        else clients.openWindow(self.registration.scope);
+      }
     }),
   );
 });
